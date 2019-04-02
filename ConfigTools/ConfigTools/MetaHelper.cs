@@ -74,7 +74,7 @@ namespace ConfigTools
 
         public bool CheckTypeIsMap()
         {
-            return Fields[0].mFieldName.ToUpper() == "ID";
+            return Fields[0].mFieldName == "ID" || Fields[0].mFieldName == "Key";
         }
     }
 }
