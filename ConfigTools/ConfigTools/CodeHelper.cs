@@ -21,33 +21,33 @@ namespace ConfigTools
                 using (var sw = new StreamWriter(fs, Encoding.UTF8))
                 {
                     sw.WriteLine("/*");
-                    sw.WriteLine("* 此类由ConfigTools自动生成. https://github.com/huangkumao/ConfigTools");
+                    sw.WriteLine("* 此类由ConfigTools自动生成. ");
                     sw.WriteLine("*/");
                     sw.WriteLine("using System.Collections.Generic;");
                     sw.WriteLine("");
-                    sw.WriteLine("namespace Configs");
+                    //sw.WriteLine("namespace Configs");
+                    //sw.WriteLine("{");
+                    sw.WriteLine("public class {0}", pTableMeta.ClassName);
                     sw.WriteLine("{");
-                    sw.WriteLine("    public class {0}", pTableMeta.ClassName);
-                    sw.WriteLine("    {");
                     if (pTableMeta.CheckTypeIsMap())
-                        sw.WriteLine("        public Dictionary<string, {0}> mDataMap;", pTableMeta.DataName);
+                        sw.WriteLine("    public Dictionary<string, {0}> mDataMap;", pTableMeta.DataName);
                     else
-                        sw.WriteLine("        public List<{0}> mDataList;", pTableMeta.DataName);
-                    sw.WriteLine("    }");
+                        sw.WriteLine("    public List<{0}> mDataList;", pTableMeta.DataName);
+                    sw.WriteLine("}");
                     sw.WriteLine();
-                    sw.WriteLine("    public class {0}", pTableMeta.DataName);
-                    sw.WriteLine("    {");
+                    sw.WriteLine("public class {0} : Data", pTableMeta.DataName);
+                    sw.WriteLine("{");
                     foreach (var field in pTableMeta.Fields)
                     {
                         if (!field.IsExportField(pCfgType))
                             continue;
 
-                        sw.WriteLine("        " + field.mComment);
-                        sw.WriteLine("        public {0} {1};", field.GetFieldTypeName(ExportCodeType.CSharp),
+                        sw.WriteLine("    " + field.mComment);
+                        sw.WriteLine("    public {0} {1};", field.GetFieldTypeName(ExportCodeType.CSharp),
                             field.mFieldName);
                     }
-                    sw.WriteLine("    }");
                     sw.WriteLine("}");
+                    //sw.WriteLine("}");
                 }
             }
         }
